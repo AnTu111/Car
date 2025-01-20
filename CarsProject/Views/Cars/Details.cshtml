@@ -1,0 +1,58 @@
+﻿@model CarsProject.Models.CarsDetailsViewModel
+<div class="main">
+    <h1>Details</h1>
+
+    <div>
+        <h4>Cars</h4>
+        <hr />
+        <dl class="row">
+            <div class="form-group row">
+                <label asp-for="Id" class="col-sm-2 col-form-label"></label>
+                @Html.DisplayFor(model => model.Id)
+            </div>
+
+            <div class="form-group row">
+                <label asp-for="Make" class="col-sm-2 col-form-label"></label>
+                @Html.DisplayFor(model => model.Make)
+            </div>
+
+            <div class="form-group row">
+                <label asp-for="Model" class="col-sm-2 col-form-label"></label>
+                @Html.DisplayFor(model => model.Model)
+            </div>
+
+            <div class="form-group row">
+                <label asp-for="Year" class="col-sm-2 col-form-label"></label>
+                @Html.DisplayFor(model => model.Year)
+            </div>
+
+            <div class="form-group row">
+                <label asp-for="Color" class="col-sm-2 col-form-label"></label>
+                @Html.DisplayFor(model => model.Color)
+            </div>
+
+            <div class="form-group row">
+                <label asp-for="MotorPower" class="col-sm-2 col-form-label"></label>
+                @Html.DisplayFor(model => model.MotorPower)
+                KW
+            </div>
+
+            <div class="form-group row">
+                <label asp-for="Fuel" class="col-sm-2 col-form-label"></label>
+                @Html.DisplayFor(model => model.Fuel)
+            </div>
+
+
+            <div class="form-group row">
+                <label asp-for="CreatedAt" class="col-sm-2 col-form-label"></label>
+                @Html.DisplayFor(model => model.CreatedAt)
+            </div>
+
+            <div class="form-group row">
+                <label asp-for="UpdatedAt" class="col-sm-2 col-form-label"></label>
+                @Html.DisplayFor(model => model.UpdatedAt)
+            </div>
+        </dl>
+        <a asp-action="Index" asp-controller="cars" class="btn btn-danger">Back</a>
+    </div>
+</div>
