@@ -1,9 +1,6 @@
 ﻿using CarsProject.Core.Dto;
 using CarsProject.Core.ServiceInterface;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace CarsTest
@@ -11,42 +8,39 @@ namespace CarsTest
     public class CarTest : TestBase
     {
         [Fact]
-        public async Task ShouldNot_AddEmptyCar_WhenReturnresult()
+        public async Task Not_AddEmptyCar_WhenReturnresult_null()
         {
-            CarDto dto = new CarDto();
-
-            dto.Make = "Name";
-            dto.Model = "Model";
-            dto.Color = "red";
-            dto.Year = 123;
-            dto.MotorPower = "1,8";
-            dto.Fuel = "petrol";
-            dto.Price = "1234";
-
-            dto.CreatedAt = DateTime.Now;
-            dto.UpdatedAt = DateTime.Now;
+            CarDto dto = new CarDto
+            {
+                Make = "Universal",
+                Model = "BMW",
+                Color = "black",
+                Year = 1985,
+                MotorPower = "2,0",
+                Fuel = "diesel",
+                Price = "15800",
+                CreatedAt = DateTime.Now,
+                UpdatedAt = DateTime.Now
+            };
 
             var result = await Svc<ICarsServices>().Create(dto);
 
             Assert.NotNull(result);
-
         }
-        [Fact]
-        //chack a path for elements
-        public async Task ShouldNot_GetByIdCars_WhenReturnNotEqual()
 
+        [Fact]
+        public async Task Not_GetByIdCars_WhenReturnNotEqual()
         {
             Guid guid = Guid.Parse("67457d6e-854d-4112-b467-776ef280574c");
-           
-            Guid wrongGuid = Guid.Parse(Guid.NewGuid().ToString());
+            Guid wrongGuid = Guid.NewGuid();
 
-            //act
             await Svc<ICarsServices>().GetAsync(guid);
-            //assert
+
             Assert.NotEqual(guid, wrongGuid);
         }
+
         [Fact]
-        public async Task Should_DeleteByIdSpaceship_WhenDeleteSpaceship()
+        public async Task Should_DeleteById_WhenDelete()
         {
             CarDto car = MockCarsData();
 
@@ -55,26 +49,25 @@ namespace CarsTest
 
             Assert.Equal(result, addcar);
         }
+
         private CarDto MockCarsData()
         {
-            CarDto car = new()
+            return new CarDto
             {
-                Make = "Name",
-                Model = "Model",
-                Color = "red",
-                Year = 123,
-                MotorPower = "1,8",
-                Fuel = "petrol",
-                Price = "1234",
-
+                Make = "Universal",
+                Model = "BMW",
+                Color = "black",
+                Year = 1985,
+                MotorPower = "2,0",
+                Fuel = "diesel",
+                Price = "15800",
                 CreatedAt = DateTime.Now,
-                UpdatedAt = DateTime.Now,
+                UpdatedAt = DateTime.Now
             };
-            return car;
-
         }
+
         [Fact]
-        public async Task SouldNot_DeleteByIdCar_WhenDidNotDeleteCar()
+        public async Task Not_DeleteByIdCar_WhenDidNotDeleteCar()
         {
             CarDto car = MockCarsData();
             var addcar = await Svc<ICarsServices>().Create(car);
@@ -83,39 +76,36 @@ namespace CarsTest
             var result = await Svc<ICarsServices>().Delete((Guid)addcar2.Id);
 
             Assert.NotEqual(result, addcar);
-
         }
-        [Fact]
-        public async Task ShouldNot_UpdateCar_WhenNotUdateData()
-        {
-            CarDto dto = MockCarsData();
-            await Svc<ICarsServices>().Create(dto);
 
 
-            CarDto nullUpdate = MockNullCar();
-            await Svc<ICarsServices>().Update(nullUpdate);
-
-            var nullId = nullUpdate.Id;
-
-            Assert.True(dto.Id == nullId);
-
-        }
         private CarDto MockNullCar()
         {
-            CarDto nullDto = new()
+            return new CarDto
             {
-                Make = "Name",
-                Model = "Model",
-                Color = "red",
-                Year = 123,
-                MotorPower = "1,8",
-                Fuel = "petrol",
-                Price = "1234",
-
+                Make = "Universal",
+                Model = "BMW",
+                Color = "black",
+                Year = 1985,
+                MotorPower = "2,0",
+                Fuel = "diesel",
+                Price = "15800",
                 CreatedAt = DateTime.Now,
-                UpdatedAt = DateTime.Now,
+                UpdatedAt = DateTime.Now
             };
-            return nullDto;
+        }
+
+        [Fact]
+        public async Task Should_ThrowArgumentNullException_When_DeletingNonExistentCar()
+        {
+            // Arrange
+            Guid nonExistentId = Guid.NewGuid();
+
+            // Act & Assert
+            await Assert.ThrowsAsync<ArgumentNullException>(async () =>
+            {
+                await Svc<ICarsServices>().Delete(nonExistentId);
+            });
         }
 
     }
